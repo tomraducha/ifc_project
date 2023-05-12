@@ -1,23 +1,97 @@
-<h1 style="color: #4287f5; font-family: Arial, sans-serif; text-align: center;">CLI-IFCJS</h1>
-<p style="font-family: Arial, sans-serif;">CLI-IFCJS est un outil en ligne de commande extrêmement puissant pour gérer les fichiers Industry Foundation Classes (IFC). IFC est un format de données ouvert et neutre qui permet l'échange d'informations entre différentes applications dans la chaîne numérique du bâtiment et de la construction. Avec CLI-IFCJS, vous pouvez facilement intégrer cette fonctionnalité dans vos projets et workflows.</p>
-<h2 style="font-family: Arial, sans-serif;">🚀 Installation</h2>
-<p style="font-family: Arial, sans-serif;">Pour installer CLI-IFCJS, vous pouvez utiliser npm (Node Package Manager). Si ce n'est pas déjà fait, vous devrez installer Node.js sur votre machine. Une fois Node.js installé, vous pouvez installer CLI-IFCJS globalement sur votre machine en utilisant la commande suivante :</p>
-<pre style="font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 10px;"><code>npm i -g cli-ifcjs</code></pre>
-<h2 style="font-family: Arial, sans-serif;">📖 Utilisation</h2>
-<p style="font-family: Arial, sans-serif;">Après avoir installé CLI-IFCJS, vous pouvez l'utiliser directement depuis la ligne de commande (si vous l'avez installé globalement).</p>
-<p style="font-family: Arial, sans-serif;">Pour construire l'application :</p>
-<pre style="font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 10px;"><code>npm run build</code></pre>
-<p style="font-family: Arial, sans-serif;">Pour surveiller les changements :</p>
-<pre style="font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 10px;"><code>npm run start</code></pre>
-<h2 style="font-family: Arial, sans-serif;">🎨 Template "JavaScript + Rollup"</h2>
-<p style="font-family: Arial, sans-serif;">Pour le template "JavaScript + Rollup", si vous utilisez VS Code, vous pouvez utiliser l'extension Live Server pour afficher cette application web dans votre navigateur. Suivez simplement ces étapes :</p>
-<ol style="font-family: Arial, sans-serif;">
-  <li>Installez l'extension Live Server si ce n'est pas déjà fait.</li>
-  <li>Ouvrez votre projet dans VS Code.</li>
-  <li>Cliquez avec le bouton droit de la souris sur le fichier HTML que vous souhaitez ouvrir et cliquez sur "Open with Live Server".</li>
-</ol>
-<h2 style="font-family: Arial, sans-serif;">🤝 Support</h2>
-<p style="font-family: Arial, sans-serif;">Si vous rencontrez des problèmes avec CLI-IFCJS, n'hésitez pas à ouvrir une issue sur GitHub.</p>
-<h2 style="font-family: Arial, sans-serif;">🌟 Contribuer</h2>
-<p style="font-family: Arial, sans-serif;">Les contributions sont toujours les bienvenues ! Veuillez lire le guide de contribution avant de soumettre une pull request.</p>
-<h2 style="font-family: Arial, sans-serif;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI-IFCJS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 24px;
+    }
+
+    p {
+      color: #555;
+      font-size: 16px;
+    }
+
+    code {
+      background-color: #f2f2f2;
+      padding: 2px 4px;
+      color: #333;
+    }
+
+    .installation {
+      margin-top: 30px;
+    }
+
+    .usage {
+      margin-top: 20px;
+    }
+
+    .template {
+      margin-top: 20px;
+    }
+
+    .support {
+      margin-top: 30px;
+    }
+
+    .contributing {
+      margin-top: 20px;
+    }
+
+    .license {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CLI-IFCJS</h1>
+  <p>CLI-IFCJS is a powerfully robust command line tool for handling Industry Foundation Classes (IFC) files. IFC is an open, neutral data format that allows the exchange of information between different applications in the digital chain of building and construction. With CLI-IFCJS, you can easily incorporate this functionality into your projects and workflows.</p>
+
+  <div class="installation">
+    <h2>🚀 Installation</h2>
+    <p>To install CLI-IFCJS, you can use npm (node package manager). If you haven't already, you will need to install Node.js on your machine. Once you have installed Node.js, you can install CLI-IFCJS globally on your machine using the following command:</p>
+    <pre><code>npm i -g cli-ifcjs</code></pre>
+  </div>
+
+  <div class="usage">
+    <h2>📖 Usage</h2>
+    <p>After installing CLI-IFCJS, you can use it directly from the command line (if you installed it globally).</p>
+    <p>To build the application:</p>
+    <pre><code>npm run build</code></pre>
+    <p>To watch for changes:</p>
+    <pre><code>npm run start</code></pre>
+  </div>
+
+  <div class="template">
+    <h2>🎨 "JavaScript + Rollup" Template</h2>
+    <p>For the "JavaScript + Rollup" template, if you're using VS Code, you can utilize the Live Server extension to display this web application in your browser. Simply follow these steps:</p>
+    <ol>
+      <li>Install the Live Server extension if you haven't already.</li>
+      <li>Open your project in VS Code.</li>
+      <li>Right click on the HTML file you want to open and click "Open with Live Server".</li>
+    </ol>
+  </div>
+
+  <div class="support">
+    <h2>🤝 Support</h2>
+    <p>If you encounter any issues with CLI-IFCJS, please feel free to open an issue on GitHub.</p>
+  </div>
+
+  <div class="contributing">
+    <h2>🌟 Contributing</h2>
+<p>Contributions are always welcome! Please read the contribution guide before submitting a pull request.</p>
+  </div>
+  <div class="license">
+    <h2>📄 License</h2>
+    <p>CLI-IFCJS is distributed under the MIT License.</p>
+  </div>
+</body>
+</html>
