@@ -27,9 +27,9 @@
   </div>
 
   <div class="support">
-    <h2>🤝 Support</h2>
-    <p>If you encounter any issues with CLI-IFCJS, please feel free to open an issue on GitHub.</p>
-  </div>
+  <h2>🤝 Support</h2>
+  <p>If you encounter any issues with CLI-IFCJS, please feel free to <a href="https://github.com/ENG-Mazri/cli-ifcjs#cli-ifcjs"><em><u>open an issue on GitHub</u></em></a>.</p>
+</div>
 
   <div class="contributing">
     <h2>🌟 Contributing</h2>
