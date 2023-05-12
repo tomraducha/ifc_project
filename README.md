@@ -40,4 +40,5 @@
     <p>CLI-IFCJS is distributed under the MIT License.</p>
   </div>
   
-  <p>If you encounter any issues with CLI-IFCJS, please feel free to <a href="https://github.com/ENG-Mazri/cli-ifcjs#cli-ifcjs" style="text-decoration: underline; font-style: italic; font-size: 12px; position: absolute; bottom: 20px;">open an issue on GitHub</a>.</p>
+<a href="https://github.com/ENG-Mazri/cli-ifcjs#cli-ifcjs" target="_blank">Link to official documentation</a>
+
