@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CLI-IFCJS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-
-    h1 {
-      color: #333;
-      font-size: 24px;
-    }
-
-    p {
-      color: #555;
-      font-size: 16px;
-    }
-
-    code {
-      background-color: #f2f2f2;
-      padding: 2px 4px;
-      color: #333;
-    }
-
-    .installation {
-      margin-top: 30px;
-    }
-
-    .usage {
-      margin-top: 20px;
-    }
-
-    .template {
-      margin-top: 20px;
-    }
-
-    .support {
-      margin-top: 30px;
-    }
-
-    .contributing {
-      margin-top: 20px;
-    }
-
-    .license {
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <h1>CLI-IFCJS</h1>
+ <h1>CLI-IFCJS</h1>
   <p>CLI-IFCJS is a powerfully robust command line tool for handling Industry Foundation Classes (IFC) files. IFC is an open, neutral data format that allows the exchange of information between different applications in the digital chain of building and construction. With CLI-IFCJS, you can easily incorporate this functionality into your projects and workflows.</p>
 
   <div class="installation">
@@ -93,5 +39,3 @@
     <h2>📄 License</h2>
     <p>CLI-IFCJS is distributed under the MIT License.</p>
   </div>
-</body>
-</html>
