@@ -1,105 +1,164 @@
-import './style.css'
+import "./style.css";
 import {
-    AmbientLight,
-    AxesHelper,
-    DirectionalLight,
-    GridHelper,
-    PerspectiveCamera,
-    Scene,
-    WebGLRenderer,
-  } from "three";
-  import {
-      OrbitControls
-  } from "three/examples/jsm/controls/OrbitControls";
+  AmbientLight,
+  AxesHelper,
+  DirectionalLight,
+  GridHelper,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// three-mesh-bvh
+import { Raycaster, Vector2 } from "three";
+import {
+  acceleratedRaycast,
+  computeBoundsTree,
+  disposeBoundsTree,
+} from "three-mesh-bvh";
 
-  //Creates the Three.js scene
-  const scene = new Scene();
+//Sets up the IFC loading
+const ifcModels = [];
+const raycaster = new Raycaster();
+raycaster.firstHitOnly = true;
+const mouse = new Vector2();
 
-  //Object to store the size of the viewport
-  const size = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
-
-  //Creates the camera (point of view of the user)
-  const aspect = size.width / size.height;
-  const camera = new PerspectiveCamera(75, aspect);
-  camera.position.z = 15;
-  camera.position.y = 13;
-  camera.position.x = 8;
-
-  //Creates the lights of the scene
-  const lightColor = 0xffffff;
-
-  const ambientLight = new AmbientLight(lightColor, 0.5);
-  scene.add(ambientLight);
-
-  const directionalLight = new DirectionalLight(lightColor, 1);
-  directionalLight.position.set(0, 10, 0);
-  directionalLight.target.position.set(-5, 0, 0);
-  scene.add(directionalLight);
-  scene.add(directionalLight.target);
-
-  //Sets up the renderer, fetching the canvas of the HTML
-  const threeCanvas = document.getElementById("three-canvas");
-  const renderer = new WebGLRenderer({
-      canvas: threeCanvas,
-      alpha: true
+async function loadIFC() {
+  await ifcLoader.ifcManager.setWasmPath("../../");
+  ifcLoader.load("../../IFC/01.ifc", (ifcModel) => {
+    ifcModels.push(ifcModel);
+    scene.add(ifcModel);
   });
+}
 
+loadIFC();
+
+//Creates the Three.js scene
+const scene = new Scene();
+
+//Object to store the size of the viewport
+const size = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+//Creates the camera (point of view of the user)
+const aspect = size.width / size.height;
+const camera = new PerspectiveCamera(75, aspect);
+camera.position.z = 15;
+camera.position.y = 13;
+camera.position.x = 8;
+
+//Creates the lights of the scene
+const lightColor = 0xffffff;
+
+const ambientLight = new AmbientLight(lightColor, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new DirectionalLight(lightColor, 1);
+directionalLight.position.set(0, 10, 0);
+directionalLight.target.position.set(-5, 0, 0);
+scene.add(directionalLight);
+scene.add(directionalLight.target);
+
+//Sets up the renderer, fetching the canvas of the HTML
+const threeCanvas = document.getElementById("three-canvas");
+const renderer = new WebGLRenderer({
+  canvas: threeCanvas,
+  alpha: true,
+});
+
+renderer.setSize(size.width, size.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+//Creates grids and axes in the scene
+const grid = new GridHelper(50, 30);
+scene.add(grid);
+
+const axes = new AxesHelper();
+axes.material.depthTest = false;
+axes.renderOrder = 1;
+scene.add(axes);
+
+//Creates the orbit controls (to navigate the scene)
+const controls = new OrbitControls(camera, threeCanvas);
+controls.enableDamping = true;
+controls.target.set(-2, 0, 0);
+
+//Animation loop
+const animate = () => {
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+};
+
+animate();
+
+//Adjust the viewport to the size of the browser
+window.addEventListener("resize", () => {
+  size.width = window.innerWidth;
+  size.height = window.innerHeight;
+  camera.aspect = size.width / size.height;
+  camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
-  //Creates grids and axes in the scene
-  const grid = new GridHelper(50, 30);
-  scene.add(grid);
+import { IFCLoader } from "web-ifc-three/IFCLoader";
 
-  const axes = new AxesHelper();
-  axes.material.depthTest = false;
-  axes.renderOrder = 1;
-  scene.add(axes);
+// Sets up the IFC loading
+const ifcLoader = new IFCLoader();
+ifcLoader.ifcManager.setupThreeMeshBVH(
+  computeBoundsTree,
+  disposeBoundsTree,
+  acceleratedRaycast
+);
+ifcLoader.ifcManager.setWasmPath("../wasm/");
+const input = document.getElementById("file-input");
+input.addEventListener(
+  "change",
+  (changed) => {
+    const file = changed.target.files[0];
+    var ifcURL = URL.createObjectURL(file);
+    ifcLoader.load(ifcURL, (ifcModel) => {
+      scene.add(ifcModel);
+      console.log(ifcModel);
+    });
+  },
+  false
+);
 
-  //Creates the orbit controls (to navigate the scene)
-  const controls = new OrbitControls(camera, threeCanvas);
-  controls.enableDamping = true;
-  controls.target.set(-2, 0, 0);
+function cast(event) {
+  // Computes the position of the mouse on the screen
+  const bounds = threeCanvas.getBoundingClientRect();
 
-  //Animation loop
-  const animate = () => {
-    controls.update();
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-  };
+  const x1 = event.clientX - bounds.left;
+  const x2 = bounds.right - bounds.left;
+  mouse.x = (x1 / x2) * 2 - 1;
 
-  animate();
+  const y1 = event.clientY - bounds.top;
+  const y2 = bounds.bottom - bounds.top;
+  mouse.y = -(y1 / y2) * 2 + 1;
 
-  //Adjust the viewport to the size of the browser
-  window.addEventListener("resize", () => {
-    size.width = window.innerWidth;
-    size.height = window.innerHeight;
-    camera.aspect = size.width / size.height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(size.width, size.height);
-  });
+  // Places it on the camera pointing to the mouse
+  raycaster.setFromCamera(mouse, camera);
 
-  import { IFCLoader } from "web-ifc-three/IFCLoader";
+  // Casts a ray
+  return raycaster.intersectObjects(ifcModels);
+}
 
-  // Sets up the IFC loading
-  const ifcLoader = new IFCLoader();
-  ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const input = document.getElementById("file-input");
-  input.addEventListener(
-    "change",
-    (changed) => {
-      const file = changed.target.files[0];
-      var ifcURL = URL.createObjectURL(file);
-      ifcLoader.load(
-            ifcURL,
-            (ifcModel) => {
-              scene.add(ifcModel);
-              console.log(ifcModel)
-              
-            });
-    },
-    false
-  );
+// Event that gets executed when an item is picked
+async function pick(event) {
+  const found = cast(event)[0];
+  if (found) {
+    const index = found.faceIndex;
+    const geometry = found.object.geometry;
+    const ifc = ifcLoader.ifcManager;
+    const id = ifc.getExpressId(geometry, index);
+    const modelID = found.object.modelID;
+    const props = await ifc.getItemProperties(modelID, id);
+    const output = document.getElementById("output");
+    output.innerHTML = JSON.stringify(props, null, 2);
+  }
+}
+
+threeCanvas.addEventListener("dblclick", pick);
