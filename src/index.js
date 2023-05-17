@@ -17,6 +17,15 @@ import {
   disposeBoundsTree,
 } from "three-mesh-bvh";
 
+import {
+  IfcAPI,
+  IFCSPACE,
+  // IFCSENSOR,
+  // IFCCLASSIFICATIONREFERENCE,
+} from "web-ifc/web-ifc-api";
+
+const ifcapi = new IfcAPI();
+
 //Sets up the IFC loading
 const ifcModels = [];
 const raycaster = new Raycaster();
@@ -105,6 +114,7 @@ window.addEventListener("resize", () => {
 
 import { IFCLoader } from "web-ifc-three/IFCLoader";
 
+let modelID = 0;
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setupThreeMeshBVH(
@@ -119,6 +129,7 @@ input.addEventListener(
   (changed) => {
     const file = changed.target.files[0];
     var ifcURL = URL.createObjectURL(file);
+    initIfcApi(ifcURL);
     ifcLoader.load(ifcURL, (ifcModel) => {
       scene.add(ifcModel);
       console.log(ifcModel);
@@ -126,6 +137,64 @@ input.addEventListener(
   },
   false
 );
+
+/**
+ * Requests the data from the url
+ *
+ * @param {string} url
+ * @returns
+ */
+function getIfcFile(url) {
+  return new Promise((resolve, reject) => {
+    var oReq = new XMLHttpRequest();
+    oReq.responseType = "arraybuffer";
+    oReq.addEventListener("load", () => {
+      resolve(new Uint8Array(oReq.response));
+    });
+    oReq.open("GET", url);
+    oReq.send();
+  });
+}
+
+/**
+ * Gets the elements of the requested model
+ *
+ * @param {string} modelID The model ID
+ * @param {string} model The model type to retrieve
+ * @returns
+ */
+function getAllElements(modelID, model) {
+  // Get all the propertyset lines in the IFC file
+  let lines = ifcapi.GetLineIDsWithType(modelID, model);
+  let lineSize = lines.size();
+  let spaces = [];
+  for (let i = 0; i < lineSize; i++) {
+    // Getting the ElementID from Lines
+    let relatedID = lines.get(i);
+    // Getting Element Data using the relatedID
+    let relDefProps = ifcapi.GetLine(modelID, relatedID);
+    spaces.push(relDefProps);
+  }
+  return spaces;
+}
+
+/**
+ * Initializes the ifcApi to request data.
+ *
+ * @param {string} ifcFileLocation
+ */
+function initIfcApi(ifcFileLocation) {
+  ifcapi.Init().then(() => {
+    getIfcFile(ifcFileLocation).then((ifcData) => {
+      modelID = ifcapi.OpenModel(ifcData);
+      let isModelOpened = ifcapi.IsModelOpen(modelID);
+      console.log({ isModelOpened });
+      let elements = getAllElements(modelID, IFCSPACE);
+      console.log({ elements });
+      ifcapi.CloseModel(modelID);
+    });
+  });
+}
 
 function cast(event) {
   // Computes the position of the mouse on the screen
